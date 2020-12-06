@@ -1,7 +1,4 @@
 #pragma once
-class CPipe
-{
-#pragma once
 #include <iostream>
 #include <string>
 
@@ -16,5 +13,4 @@ class CPipe
 		friend std::string checkRepair(const CPipe& p);
 		CPipe();
 	};
-};
 
