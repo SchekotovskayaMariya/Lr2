@@ -263,6 +263,26 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
+void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
+{
+	cout << "1. Delete pipe\n2. Delete compressor station\nSelect action - ";
+	int choice = CheckNum(1, 2);
+	if (choice == 1)
+	{
+		cout << "Enter ID: ";
+		int ch = CheckNum(0, 100);
+		pipes.erase(pipes.begin() + ch);
+		cout << endl;
+	}
+	else
+	{
+		cout << "Enter ID: ";
+		int ch = CheckNum(0, 100);
+		cs.erase(cs.begin() + ch);
+		cout << endl;
+	}
+}
+
 int main()
 {
 	vector <CPipe> pipes;
@@ -301,6 +321,11 @@ int main()
 		case 5:
 		{
 			EditCs(cs);
+			break;
+		}
+		case 7:
+		{
+			DeleteObject(pipes, cs);
 			break;
 		}
 		case 8:
