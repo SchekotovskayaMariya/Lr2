@@ -59,7 +59,7 @@ istream& operator>> (std::istream& in, CPipe& p)
 	return in;
 }
 
-void menu()
+void Menu()
 {
 	cout << "1. Add pipe" << endl << "2. Add compressor station" << endl << "3. Show objects" << endl
 		<< "4. Edit pipe" << endl << "5. Edit compressor station" << endl << "6. Search by filter" << endl
@@ -152,7 +152,7 @@ void EditCs(vector<CCS>& cs)
 }
 
 
-void ViewThat(vector<CPipe>& pipes, vector<CCS>& cs)
+void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 {
 	cout << "1. View all\n" << "2. View pipes\n" << "3. View compressor stations\nSelect - ";
 	switch (CheckNum(1, 3))
@@ -229,7 +229,7 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
-void LoadAll(vector<CPipe>& pipes, vector<CCS>& cs)
+void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 {
 	ifstream fin;
 	string name;
@@ -265,48 +265,52 @@ void LoadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 
 int main()
 {
-	pipe pi;
-	KC st;
-
+	vector <CPipe> pipes;
+	vector <CCS> cs;
 
 	while (true)
 	{
 		Menu();
 
-		switch (ChekNum(0, 7))
+		switch (CheckNum(0, 9))
 		{
 		case 1:
-		{	cin >> pi;
-		break;
+		{
+			CPipe p;
+			cin >> p;
+			pipes.push_back(p);
+			break;
 		}
 		case 2:
 		{
-			st = CreateKC();
+			CCS c;
+			cin >> c;
+			cs.push_back(c);
 			break;
 		}
 		case 3:
 		{
-			ViewThat(pi, st);
+			ViewObjects(pipes, cs);
 			break;
 		}
 		case 4:
 		{
-			EditPipe(pi);
+			EditPipe(pipes);
 			break;
 		}
 		case 5:
 		{
-			EditKC(st);
+			EditCs(cs);
 			break;
 		}
-		case 6:
+		case 8:
 		{
-			SaveThat(pi, st);
+			SaveAll(pipes, cs);
 			break;
 		}
-		case 7:
+		case 9:
 		{
-			UploadThat(pi, st);
+			UploadAll(pipes, cs);
 			break;
 		}
 		case 0:
