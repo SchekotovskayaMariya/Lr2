@@ -268,6 +268,11 @@ bool SearchById(CPipe& p, int param)
 	return p.id == param;
 }
 
+bool SearchByRepair(CPipe& p, int param)
+{
+	return p.repair == param - 1;
+}
+
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
 {
 	cout << "1. Delete pipe\n2. Delete compressor station\nSelect action - ";
