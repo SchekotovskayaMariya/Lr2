@@ -263,6 +263,11 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
+bool SearchById(CPipe& p, int param)
+{
+	return p.id == param;
+}
+
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
 {
 	cout << "1. Delete pipe\n2. Delete compressor station\nSelect action - ";
