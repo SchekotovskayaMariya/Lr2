@@ -173,13 +173,6 @@ pipe UploadPipe()
 	return p;
 }
 
-void ViewPipe(const pipe& p)
-{
-	cout << "\nID: " << p.id << endl
-		<< "Length: " << p.length << endl
-		<< "Diametr: " << p.diameter << endl
-		<< "Repair status: " << p.repair_status << endl;
-}
 
 void SavePipe(const pipe& p)
 {
@@ -193,7 +186,52 @@ void SavePipe(const pipe& p)
 	}
 }
 
-
+void ViewThat(vector<CPipe>& pipes, vector<CCS>& cs)
+{
+	cout << "1. View all\n" << "2. View pipes\n" << "3. View compressor stations\nSelect - ";
+	switch (CheckNum(1, 3))
+	{
+	case 1:
+	{
+		cout << endl;
+		for (CPipe p : pipes)
+		{
+			cout << "Pipe id: " << p.id << std::endl << "diametr: " << p.diametr << std::endl
+				<< "length: " << p.length << std::endl << "pipe condition: " << checkRepair(p);
+		}
+		for (CCS c : cs)
+		{
+			cout.precision(2);// 2 знака после запятой
+			cout << "\nCS id: " << c.id << endl << "Name: " << c.name
+				<< endl << "Quantity of workshops: " << c.totalShop << endl
+				<< "Quantity of workshop workers: " << c.workShop << endl
+				<< "Efficiency: " << c.efficiency << endl << endl;
+		}
+		break;
+	}
+	case 2:
+	{
+		cout << "Select id you want to output: ";
+		int OutPipe;
+		cin >> OutPipe;
+		cout << "Pipe id: " << pipes[OutPipe].id << endl << "diametr: " << pipes[OutPipe].diametr << endl
+			<< "length: " << pipes[OutPipe].length << endl << "pipe condition: " << checkRepair(pipes[OutPipe]);
+		break;
+	}
+	case 3:
+	{
+		cout << "Select id you want to output: ";
+		int OutCs;
+		cin >> OutCs;
+		cout.precision(2);
+		cout << "\nCS id: " << cs[OutCs].id << endl << "Name: " << cs[OutCs].name
+			<< endl << "Quantity of workshops: " << cs[OutCs].totalShop << endl
+			<< "Quantity of workshop workers: " << cs[OutCs].workShop << endl
+			<< "Efficiency: " << cs[OutCs].efficiency << endl << endl;;
+		break;
+	}
+	}
+}
 
 
 KC UploadKC()
@@ -220,15 +258,6 @@ KC UploadKC()
 	return s;
 }
 
-void ViewKC(const KC& s)
-{
-	cout.precision(2);
-	cout << "\nID: " << s.id << endl
-		<< "Name: " << s.name << endl
-		<< "Number of workshops: " << s.n_ws << endl
-		<< "Number of workshops in operation: " << s.n_ws_op << endl
-		<< "Efficiency: " << s.ef << endl;
-}
 
 void SaveKC(const KC& s)
 {
@@ -288,45 +317,8 @@ void UploadAll(pipe& p, KC& s)
 	fin.close();
 }
 
-void ViewAll(const pipe& p, const KC& s)
-{
-	cout.precision(2);
-	cout << "\nPipe:" << "\nID: " << p.id << endl
-		<< "Length: " << p.length << endl
-		<< "Diametr: " << p.diameter << endl
-		<< "Repair status: " << p.repair_status << endl;
-	cout << "\nKC" << "\nID: " << s.id << endl
-		<< "Name: " << s.name << endl
-		<< "Number of workshops: " << s.n_ws << endl
-		<< "Number of workshops in operation: " << s.n_ws_op << endl
-		<< "Efficiency: " << s.ef << endl;
-}
 
-void ViewThat(const pipe& pi, const KC& st)
-{
-	switch (ChekNum(1, 3)
-	{
-	case 1:
-	{
-		ViewPipe(pi);
-		break;
-	}
-	case 2:
-	{
-		ViewKC(st);
-		break;
-	}
-	case 3:
-	{
-		ViewAll(pi, st);
-		break;
-	}
-	default:
-	{
-		cout << "Wrong action" << endl;
-	}
-	}
-}
+
 
 void UploadThat(pipe& p, KC& s)
 {
