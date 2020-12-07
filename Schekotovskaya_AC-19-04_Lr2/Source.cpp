@@ -263,24 +263,54 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
-bool SearchById(CPipe& p, int param)
+bool SearchById(const CPipe& p, int param)
 {
 	return p.id == param;
 }
 
-bool SearchByRepair(CPipe& p, int param)
+bool SearchByRepair(const CPipe& p, int param)
 {
 	return p.repair == param - 1;
 }
 
-bool SearchByName(CCS& cs, string name)
+bool SearchByName(const CCS& cs, string name)
 {
 	return cs.name == name;
 }
 
-bool SearchByPercent(CCS& cs, int param)
+bool SearchByPercent(const CCS& cs, int param)
 {
 	return 100 * (1 - (1. * cs.workShop) / cs.totalShop) >= param;
+}
+
+template <typename N>
+void FilterPipes(const vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
+{
+	for (CPipe& i : pipes)
+	{
+		if (f(i, param))
+		{
+			cout << endl << "Pipe id: " << i.id << std::endl << "diametr: " << i.diametr << std::endl
+				<< "length: " << i.length << std::endl << "pipe condition: " << checkRepair(i);
+		}
+	}
+	cout << endl;
+}
+template <typename N>
+void FilterCs(const vector<CCS>& vect, bool(*f)(CCS& p, N param), N param)
+{
+	for (CCS& i : vect)
+	{
+		if (f(i, param))
+		{
+			cout.precision(2);
+			cout << "\nCS id: " << i.id << endl << "Name: " << i.name
+				<< endl << "Quantity of workshops: " << i.totalShop << endl
+				<< "Quantity of workshop workers: " << i.workShop << endl
+				<< "Efficiency: " << i.efficiency << endl << endl;
+		}
+	}
+	cout << endl;
 }
 
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
