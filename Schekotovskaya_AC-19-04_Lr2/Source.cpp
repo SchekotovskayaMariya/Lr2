@@ -1,64 +1,141 @@
 #include <iostream>
 #include <string>
+#include <vector>
 #include <fstream>
-#include <ctime>
+#include "CCS.h"
+#include "CPipe.h"
+
 
 using namespace std;
 
 template <typename T>
-T ChekNum(T min, T max, string h)
+T CheckNum(T min, T max)
 {
 	T x;
-	cout << h;
-	while ((cin >> x).fail() || x<min || x>max)
+	while ((cin >> x).fail() || x < min || x > max)
 	{
+		cout << "Please enter a valid value - ";
 		cin.clear();
 		cin.ignore(1000, '\n');
-		cout << h;
 	}
 	return x;
 }
 
-struct pipe
+string checkRepair(CPipe& p)
 {
-	int id;
-	float length, diameter;
-	bool repair_status;
-};
-
-struct KC
-{
-	int id, n_ws, n_ws_op; // n_ws - number of workshops, n_ws_op - number of workshops in operation
-	string name;
-	float ef; // ef - efficiency
-};
-
-pipe CreatePipe()
-{
-	pipe p;
-
-	p.id = 0;
-
-	p.length = ChekNum(1, 1000, "\nType the length of the pipe: ");
-
-	p.diameter = ChekNum(1, 1000, "\nType the diameter of the pipe: ");
-
-	p.repair_status = ChekNum(0, 1, "\nType the status of the repair pipe (1-under repair, 2-not under repair): ");
-
-	/*cout << "Type the pipe ID: ";
-
-	cout << "\nType the length of the pipe: ";
-	cin >> p.length;
-
-	cout << "\nType the diameter of the pipe: ";
-	cin >> p.diameter;
-
-	cout << "\nType the status of the repair pipe: ";
-	cin >> p.repair_status;*/
-
-
-	return p;
+	if (p.repair)
+	{
+		return "Unworking \n\n";
+	}
+	else
+	{
+		return "Working \n\n";
+	}
 }
+
+std::istream& operator>>(std::istream& in, CCS& cs)
+{
+	cout << "Enter the name of the compressor station - ";
+	cin.ignore();
+	getline(cin, cs.name);
+
+	cout << "Enter the number of workshops - ";
+	cs.totalShop = CheckNum(0, 1000);
+	cout << "Enter the number of workshop workers - ";
+	cs.workShop = CheckNum(0, cs.totalShop);
+
+	cs.efficiency = 1. / (rand() % 10);
+	cout << endl;
+	return in;
+}
+
+std::istream& operator>> (std::istream& in, CPipe& p)
+{
+	cout << "\nEnter the diameter in millimeters - ";
+	p.diametr = CheckNum<float>(0, 10000);
+	cout << "Enter the length in meters - ";
+	p.length = CheckNum<float>(0, 10000);
+	cout << endl;
+	return in;
+}
+
+void menu()
+{
+	cout << "1. Add pipe" << endl << "2. Add compressor station" << endl << "3. Show objects" << endl
+		<< "4. Edit pipe" << endl << "5. Edit compressor station" << endl << "6. Search by filter" << endl
+		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl
+		<< "0. Exit" << endl << endl << "Selected action - ";
+}
+
+void EditAllPipes(vector<CPipe>& pipes)
+{
+	cout << "0. Pipes working\n1. Pipes in repair\nChoose - ";
+	int choice = CheckNum(0, 1);
+	cout << endl;
+	for (CPipe& i : pipes)
+	{
+		i.repair = choice;
+	}
+}
+void EditOnePipes(vector<CPipe>& pipes)
+{
+	cout << "Select id you want to edit: ";
+	int k;
+	cin >> k;
+	cout << "0. Pipe working\n1. Pipe in repair\nChoose - ";
+	int choice = CheckNum(0, 1);
+	pipes[k].repair = choice;
+	cout << endl;
+}
+void EditPipe(vector<CPipe>& pipes)
+{
+	cout << "1. Edit all existing ones\n2. Edit one pipe\nSelect - ";
+	if (CheckNum(1, 2) == 1)
+	{
+		cout << endl;
+		EditAllPipes(pipes);
+	}
+	else
+	{
+		cout << endl;
+		EditOnePipes(pipes);
+	}
+}
+
+void EditAllCs(vector<CCS>& cs)
+{
+	cout << "\n0. Start the workshop\n1. Stop the workshop\nSelect - ";
+	int choice = CheckNum(0, 1);
+	cout << endl;
+	for (CCS& i : cs)
+	{
+		if (choice == 0)
+		{
+			i.workShop += 1;
+		}
+		else if (i.workShop > 0)
+		{
+			i.workShop -= 1;
+		}
+	}
+}
+void EditOneCs(vector<CCS>& cs)
+{
+	cout << "Id of the compressor station you want to edit: ";
+	int k;
+	cin >> k;
+	cout << "\n0. Start the workshop\n1. Stop the workshop\nSelect - ";
+	if (CheckNum(0, 1) == 0)
+	{
+		cs[k].workShop += 1;
+	}
+	else
+	{
+		if (cs[k].workShop > 0)
+			cs[k].workShop -= 1;
+	}
+}
+
 
 pipe UploadPipe()
 {
@@ -102,52 +179,8 @@ void SavePipe(const pipe& p)
 	}
 }
 
-void EditPipe(pipe& p)
-{
 
-	if (p.repair_status == 1)
-	{
-		p.repair_status = 0;
-		cout << "\nStatus changed to pipe not under repair\n";
-	}
-	else
-	{
-		p.repair_status = 1;
-		cout << "\nStatus changed to pipe under repair\n";
-	}
 
-}
-
-KC CreateKC()
-{
-	KC s;
-
-	s.id = 0;
-
-	cout << "\nType a name of the KC: ";
-	cin.get();
-	getline(cin, s.name);
-
-	s.n_ws = ChekNum(0, 1000, "\nType the number of workshops: ");
-
-	s.n_ws_op = ChekNum(0, s.n_ws, "\nType the number of workshops in operation: ");
-
-	/*cout << "Type the KC ID: ";
-
-	cout << "\nType the number of workshops: ";
-	cin >> s.n_ws;
-
-	cout << "\nType the number of workshops in operation: ";
-	cin >> s.n_ws_op;
-
-	cout << "\nType the efficiency of the KC: ";
-	cin >> s.ef;*/
-
-	srand(time(NULL));
-	s.ef = 1. / (rand() % 100);
-
-	return s;
-}
 
 KC UploadKC()
 {
@@ -195,45 +228,7 @@ void SaveKC(const KC& s)
 	}
 }
 
-void EditKC(KC& s)
-{
-	cout << "\n1. Turn on the workshop ";
-	cout << "\n2. Turn off the workshop";
-	cout << "\nChoose: ";
 
-	int choiñe;
-	choiñe = ChekNum(1, 2, "\Choose again: ");
-
-	if (choiñe == 1 && s.n_ws_op < s.n_ws)
-	{
-
-		s.n_ws_op += 1;
-		cout << s.n_ws_op;
-	}
-	else if (choiñe == 0 && s.n_ws_op > 0)
-	{
-		s.n_ws_op -= 1;
-		cout << s.n_ws_op;
-	}
-	else
-	{
-		cout << "\nPlease, try again\n";
-
-	}
-}
-
-void Menu()
-{
-	cout << "\nMain menu\n"
-		<< "1. Add a pipe\n"
-		<< "2. Add a KC\n"
-		<< "3. View objects\n"
-		<< "4. Edit the pipe\n"
-		<< "5. Edit the KC\n"
-		<< "6. Save\n"
-		<< "7. Upload\n"
-		<< "0. Exit\n";
-}
 
 void SaveAll(const pipe& p, const KC& s)
 {
@@ -295,7 +290,7 @@ void ViewAll(const pipe& p, const KC& s)
 
 void ViewThat(const pipe& pi, const KC& st)
 {
-	switch (ChekNum(1, 3, "\nSelect object 1-Pipe 2-KC 3-All: "))
+	switch (ChekNum(1, 3)
 	{
 	case 1:
 	{
@@ -321,7 +316,7 @@ void ViewThat(const pipe& pi, const KC& st)
 
 void UploadThat(pipe& p, KC& s)
 {
-	switch (ChekNum(1, 3, "\nSelect object 1-Pipe 2-KC 3-All: "))
+	switch (ChekNum(1, 3)
 	{
 	case 1:
 	{
@@ -347,7 +342,7 @@ void UploadThat(pipe& p, KC& s)
 
 void SaveThat(const pipe& pi, const KC& st)
 {
-	switch (ChekNum(1, 3, "\nSelect object 1-Pipe 2-KC 3-All: "))
+	switch (ChekNum(1, 3))
 	{
 	case 1:
 	{
@@ -371,18 +366,6 @@ void SaveThat(const pipe& pi, const KC& st)
 	}
 }
 
-istream& operator >>(istream& in, pipe& p)
-{
-	p.id = 0;
-
-	p.length = ChekNum(1, 1000, "\nType the length of the pipe: ");
-
-	p.diameter = ChekNum(1, 1000, "\nType the diameter of the pipe: ");
-
-	p.repair_status = ChekNum(0, 1, "\nType the status of the repair pipe: ");
-
-	return in;
-}
 
 int main()
 {
@@ -394,7 +377,7 @@ int main()
 	{
 		Menu();
 
-		switch (ChekNum(0, 7, "\nSelect the desired number from the menu: "))
+		switch (ChekNum(0, 7))
 		{
 		case 1:
 		{	cin >> pi;
