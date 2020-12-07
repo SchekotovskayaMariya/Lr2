@@ -151,40 +151,6 @@ void EditCs(vector<CCS>& cs)
 	}
 }
 
-pipe UploadPipe()
-{
-	pipe p;
-
-	ifstream fin;
-	fin.open("data1.txt", ios::in);
-
-	if (fin.is_open())
-	{
-		fin >> p.id;
-
-		fin >> p.length;
-
-		fin >> p.diameter;
-
-		fin >> p.repair_status;
-
-		fin.close();
-	}
-	return p;
-}
-
-
-void SavePipe(const pipe& p)
-{
-	ofstream fout;
-	fout.open("data1.txt", ios::out);
-	if (fout.is_open())
-	{
-		fout << p.id << endl << p.length << endl << p.diameter << endl << p.repair_status << endl;
-
-		fout.close();
-	}
-}
 
 void ViewThat(vector<CPipe>& pipes, vector<CCS>& cs)
 {
@@ -259,38 +225,35 @@ KC UploadKC()
 }
 
 
-void SaveKC(const KC& s)
+void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 {
 	ofstream fout;
-	fout.open("data2.txt", ios::out);
+	string name;
+	cout << "Enter name file: ";
+	cin >> name;
+	//cin.ignore();
+	//getline(cin, name);
+	fout.open(name, ios::out);
 	if (fout.is_open())
 	{
-		fout << s.id << endl << s.name << endl << s.n_ws << endl << s.n_ws_op << endl << s.ef << endl;
+		fout << pipes.size() << endl;
+		fout << cs.size() << endl;
+		fout << endl;
 
+		for (CPipe p : pipes)
+		{
+			fout << p.id << endl << p.diametr << endl
+				<< p.length << endl << p.repair << endl << endl;
+		}
+		for (CCS i : cs)
+		{
+			fout.precision(2);
+			fout << i.id << endl << i.name << endl << i.totalShop << endl
+				<< i.workShop << endl << i.efficiency << endl << endl;
+		}
+		cout << "Saved\n\n";
 		fout.close();
 	}
-}
-
-
-
-void SaveAll(const pipe& p, const KC& s)
-{
-	ofstream fout;
-	fout.open("data3.txt", ios::out);
-
-	fout.precision(2);
-	fout << p.id << endl
-		<< p.length << endl
-		<< p.diameter << endl
-		<< p.repair_status << endl
-
-		<< s.id << endl
-		<< s.name << endl
-		<< s.n_ws << endl
-		<< s.n_ws_op << endl
-		<< s.ef << endl;
-
-	fout.close();
 }
 
 void UploadAll(pipe& p, KC& s)
