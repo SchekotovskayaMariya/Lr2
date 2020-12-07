@@ -136,6 +136,20 @@ void EditOneCs(vector<CCS>& cs)
 	}
 }
 
+void EditCs(vector<CCS>& cs)
+{
+	cout << "1. Edit all existing ones\n2. Edit one cs\nSelect - ";
+	if (CheckNum(1, 2) == 1)
+	{
+		cout << endl;
+		EditAllCs(cs);
+	}
+	else
+	{
+		cout << endl;
+		EditOneCs(cs);
+	}
+}
 
 pipe UploadPipe()
 {
