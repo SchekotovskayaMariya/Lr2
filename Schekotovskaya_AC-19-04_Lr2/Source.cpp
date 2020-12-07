@@ -200,31 +200,6 @@ void ViewThat(vector<CPipe>& pipes, vector<CCS>& cs)
 }
 
 
-KC UploadKC()
-{
-	KC s;
-
-	ifstream fin;
-	fin.open("data2.txt", ios::in);
-
-	if (fin.is_open())
-	{
-		fin >> s.id;
-
-		fin >> s.name;
-
-		fin >> s.n_ws;
-
-		fin >> s.n_ws_op;
-
-		fin >> s.ef;
-
-		fin.close();
-	}
-	return s;
-}
-
-
 void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 {
 	ofstream fout;
@@ -256,84 +231,6 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
-void UploadAll(pipe& p, KC& s)
-{
-
-	ifstream fin;
-	fin.open("data3.txt", ios::in);
-
-	if (fin.is_open())
-	{
-		fin >> p.id;
-		fin >> p.length;
-		fin >> p.diameter;
-		fin >> p.repair_status;
-
-		fin >> s.id;
-		fin >> s.name;
-		fin >> s.n_ws;
-		fin >> s.n_ws_op;
-		fin >> s.ef;
-
-
-	}
-	fin.close();
-}
-
-
-
-
-void UploadThat(pipe& p, KC& s)
-{
-	switch (ChekNum(1, 3)
-	{
-	case 1:
-	{
-		ViewPipe(UploadPipe());
-		break;
-	}
-	case 2:
-	{
-		ViewKC(UploadKC());
-		break;
-	}
-	case 3:
-	{
-		UploadAll(p, s);
-		break;
-	}
-	default:
-	{
-		cout << "Wrong action" << endl;
-	}
-	}
-}
-
-void SaveThat(const pipe& pi, const KC& st)
-{
-	switch (ChekNum(1, 3))
-	{
-	case 1:
-	{
-		SavePipe(pi);
-		break;
-	}
-	case 2:
-	{
-		SaveKC(st);
-		break;
-	}
-	case 3:
-	{
-		SaveAll(pi, st);
-		break;
-	}
-	default:
-	{
-		cout << "Wrong action" << endl;
-	}
-	}
-}
 
 
 int main()
