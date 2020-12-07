@@ -9,6 +9,6 @@ public:
 	static int CountCs;
 	int totalShop, workShop;
 	float efficiency;
-	std::string name;
+	string name;
 	CCS();
 };

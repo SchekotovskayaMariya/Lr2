@@ -10,7 +10,5 @@
 		static int CountP;
 		float diametr, length;
 		bool repair = false;
-		friend std::string checkRepair(const CPipe& p);
 		CPipe();
 	};
-

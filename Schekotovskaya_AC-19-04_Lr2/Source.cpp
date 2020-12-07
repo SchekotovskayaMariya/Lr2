@@ -33,7 +33,7 @@ string checkRepair(CPipe& p)
 	}
 }
 
-std::istream& operator>>(std::istream& in, CCS& cs)
+istream& operator>>(std::istream& in, CCS& cs)
 {
 	cout << "Enter the name of the compressor station - ";
 	cin.ignore();
@@ -49,7 +49,7 @@ std::istream& operator>>(std::istream& in, CCS& cs)
 	return in;
 }
 
-std::istream& operator>> (std::istream& in, CPipe& p)
+istream& operator>> (std::istream& in, CPipe& p)
 {
 	cout << "\nEnter the diameter in millimeters - ";
 	p.diametr = CheckNum<float>(0, 10000);
