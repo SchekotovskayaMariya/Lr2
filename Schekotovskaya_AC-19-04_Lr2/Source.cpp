@@ -167,7 +167,7 @@ void ViewThat(vector<CPipe>& pipes, vector<CCS>& cs)
 		}
 		for (CCS c : cs)
 		{
-			cout.precision(2);// 2 знака после запятой
+			cout.precision(2);
 			cout << "\nCS id: " << c.id << endl << "Name: " << c.name
 				<< endl << "Quantity of workshops: " << c.totalShop << endl
 				<< "Quantity of workshop workers: " << c.workShop << endl
@@ -206,8 +206,6 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	string name;
 	cout << "Enter name file: ";
 	cin >> name;
-	//cin.ignore();
-	//getline(cin, name);
 	fout.open(name, ios::out);
 	if (fout.is_open())
 	{
@@ -231,7 +229,39 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
-
+void LoadAll(vector<CPipe>& pipes, vector<CCS>& cs)
+{
+	ifstream fin;
+	string name;
+	cout << "Enter name file: ";
+	cin >> name;
+	fin.open(name, ios::in);
+	if (fin.is_open())
+	{
+		int lenpipe, lencs;
+		fin >> lenpipe;
+		fin >> lencs;
+		pipes.resize(lenpipe);
+		cs.resize(lencs);
+		for (CPipe& p : pipes)
+		{
+			fin >> p.id;
+			fin >> p.diametr;
+			fin >> p.length;
+			fin >> p.repair;
+		}
+		for (CCS& c : cs)
+		{
+			fin >> c.id;
+			fin >> c.name;
+			fin >> c.totalShop;
+			fin >> c.workShop;
+			fin >> c.efficiency;
+		}
+		fin.close();
+		cout << "Data downloaded\n\n";
+	}
+}
 
 int main()
 {
