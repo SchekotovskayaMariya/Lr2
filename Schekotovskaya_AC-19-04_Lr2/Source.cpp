@@ -278,6 +278,11 @@ bool SearchByName(CCS& cs, string name)
 	return cs.name == name;
 }
 
+bool SearchByPercent(CCS& cs, int param)
+{
+	return 100 * (1 - (1. * cs.workShop) / cs.totalShop) >= param;
+}
+
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
 {
 	cout << "1. Delete pipe\n2. Delete compressor station\nSelect action - ";
