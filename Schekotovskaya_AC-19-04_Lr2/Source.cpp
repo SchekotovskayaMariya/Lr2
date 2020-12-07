@@ -263,28 +263,28 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	}
 }
 
-bool SearchById(const CPipe& p, int param)
+bool SearchById(CPipe& p, int param)
 {
 	return p.id == param;
 }
 
-bool SearchByRepair(const CPipe& p, int param)
+bool SearchByRepair(CPipe& p, int param)
 {
 	return p.repair == param - 1;
 }
 
-bool SearchByName(const CCS& cs, string name)
+bool SearchByName(CCS& cs, string name)
 {
 	return cs.name == name;
 }
 
-bool SearchByPercent(const CCS& cs, int param)
+bool SearchByPercent(CCS& cs, int param)
 {
 	return 100 * (1 - (1. * cs.workShop) / cs.totalShop) >= param;
 }
 
 template <typename N>
-void FilterPipes(const vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
+void ForFilterPipes(const vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 {
 	for (CPipe& i : pipes)
 	{
@@ -297,9 +297,9 @@ void FilterPipes(const vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N para
 	cout << endl;
 }
 template <typename N>
-void FilterCs(const vector<CCS>& vect, bool(*f)(CCS& p, N param), N param)
+void ForFilterCs(const vector<CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
-	for (CCS& i : vect)
+	for (CCS& i : cs)
 	{
 		if (f(i, param))
 		{
@@ -311,6 +311,41 @@ void FilterCs(const vector<CCS>& vect, bool(*f)(CCS& p, N param), N param)
 		}
 	}
 	cout << endl;
+}
+
+void SearchByFilterPipes(vector<CPipe>& pipes)
+{
+	cout << "\n1. By ID\n2. By condition\nSelect action - ";
+	if (CheckNum(1, 2) == 1)
+	{
+		cout << "Enter ID: ";
+		int ch = CheckNum(0, 100);
+		ForFilterPipes(pipes, SearchById, ch);
+	}
+	else
+	{
+		cout << "\n1. Working\n2. Unworking\nSelect action - ";
+		int choice = CheckNum(1, 2);
+		ForFilterPipes(pipes, SearchByRepair, choice);
+	}
+}
+void SearchByFilterCs(vector<CCS>& cs)
+{
+	cout << "\n1. By name\n" << "2. By percentage of unused workshops\nSelect action - ";
+	if (CheckNum(1, 2) == 1)
+	{
+		int counter = 0;
+		cout << "\nEnter a name from this list: ";
+		string name;
+		cin >> name;
+		ForFilterCs(cs, SearchByName, name);
+	}
+	else
+	{
+		cout << "\nEnter the number of percentages - ";
+		int choice = CheckNum(0, 100);
+		ForFilterCs(cs, SearchByPercent, choice);
+	}
 }
 
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
@@ -371,6 +406,15 @@ int main()
 		case 5:
 		{
 			EditCs(cs);
+			break;
+		}
+		case 6:
+		{
+			cout << "1. Search by pipes\n2. Search by compressor stations\nSelect action - ";
+			if (CheckNum(1, 2) == 1)
+				SearchByFilterPipes(pipes);
+			else
+				SearchByFilterCs(cs);
 			break;
 		}
 		case 7:
