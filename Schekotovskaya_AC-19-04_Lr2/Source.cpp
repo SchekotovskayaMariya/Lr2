@@ -21,7 +21,7 @@ T CheckNum(T min, T max)
 	return x;
 }
 
-string checkRepair(CPipe& p)
+string WordRepair(CPipe& p)
 {
 	if (p.repair)
 	{
@@ -163,7 +163,7 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 		for (CPipe p : pipes)
 		{
 			cout << "Pipe id: " << p.id << std::endl << "diametr: " << p.diametr << std::endl
-				<< "length: " << p.length << std::endl << "pipe condition: " << checkRepair(p);
+				<< "length: " << p.length << std::endl << "pipe condition: " << WordRepair(p);
 		}
 		for (CCS c : cs)
 		{
@@ -181,7 +181,7 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 		int OutPipe;
 		cin >> OutPipe;
 		cout << "Pipe id: " << pipes[OutPipe].id << endl << "diametr: " << pipes[OutPipe].diametr << endl
-			<< "length: " << pipes[OutPipe].length << endl << "pipe condition: " << checkRepair(pipes[OutPipe]);
+			<< "length: " << pipes[OutPipe].length << endl << "pipe condition: " << WordRepair(pipes[OutPipe]);
 		break;
 	}
 	case 3:
@@ -271,6 +271,11 @@ bool SearchById(CPipe& p, int param)
 bool SearchByRepair(CPipe& p, int param)
 {
 	return p.repair == param - 1;
+}
+
+bool SearchByName(CCS& cs, string name)
+{
+	return cs.name == name;
 }
 
 void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
