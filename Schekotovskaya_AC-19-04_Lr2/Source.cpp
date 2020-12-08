@@ -77,7 +77,7 @@ void EditAllPipes(vector<CPipe>& pipes)
 		i.repair = choice;
 	}
 }
-void EditOnePipes(vector<CPipe>& pipes)
+void EditOnePipe(vector<CPipe>& pipes)
 {
 	cout << "Select id you want to edit: ";
 	int k;
@@ -98,7 +98,7 @@ void EditPipe(vector<CPipe>& pipes)
 	else
 	{
 		cout << endl;
-		EditOnePipes(pipes);
+		EditOnePipe(pipes);
 	}
 }
 
@@ -284,20 +284,20 @@ bool SearchByPercent(CCS& cs, int param)
 }
 
 template <typename N>
-void ForFilterPipes(const vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
+void ForFilterPipes(vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 {
 	for (CPipe& i : pipes)
 	{
 		if (f(i, param))
 		{
 			cout << endl << "Pipe id: " << i.id << std::endl << "diametr: " << i.diametr << std::endl
-				<< "length: " << i.length << std::endl << "pipe condition: " << checkRepair(i);
+				<< "length: " << i.length << std::endl << "pipe condition: " << WordRepair(i);
 		}
 	}
 	cout << endl;
 }
 template <typename N>
-void ForFilterCs(const vector<CCS>& cs, bool(*f)(CCS& p, N param), N param)
+void ForFilterCs(vector<CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
 	for (CCS& i : cs)
 	{
