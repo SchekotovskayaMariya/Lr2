@@ -162,13 +162,13 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 		cout << endl;
 		for (CPipe p : pipes)
 		{
-			cout << "Pipe id: " << p.id << std::endl << "diametr: " << p.diametr << std::endl
+			cout << "Pipe id: " << p.GetId() << std::endl << "diametr: " << p.diametr << std::endl
 				<< "length: " << p.length << std::endl << "pipe condition: " << WordRepair(p);
 		}
 		for (CCS c : cs)
 		{
 			cout.precision(2);
-			cout << "\nCS id: " << c.id << endl << "Name: " << c.name
+			cout << "\nCS id: " << c.GetId() << endl << "Name: " << c.name
 				<< endl << "Quantity of workshops: " << c.totalShop << endl
 				<< "Quantity of workshop workers: " << c.workShop << endl
 				<< "Efficiency: " << c.efficiency << endl << endl;
@@ -180,7 +180,7 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 		cout << "Select id you want to output: ";
 		int OutPipe;
 		cin >> OutPipe;
-		cout << "Pipe id: " << pipes[OutPipe].id << endl << "diametr: " << pipes[OutPipe].diametr << endl
+		cout << "Pipe id: " << pipes[OutPipe].GetId() << endl << "diametr: " << pipes[OutPipe].diametr << endl
 			<< "length: " << pipes[OutPipe].length << endl << "pipe condition: " << WordRepair(pipes[OutPipe]);
 		break;
 	}
@@ -190,7 +190,7 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 		int OutCs;
 		cin >> OutCs;
 		cout.precision(2);
-		cout << "\nCS id: " << cs[OutCs].id << endl << "Name: " << cs[OutCs].name
+		cout << "\nCS id: " << cs[OutCs].GetId() << endl << "Name: " << cs[OutCs].name
 			<< endl << "Quantity of workshops: " << cs[OutCs].totalShop << endl
 			<< "Quantity of workshop workers: " << cs[OutCs].workShop << endl
 			<< "Efficiency: " << cs[OutCs].efficiency << endl << endl;;
@@ -205,7 +205,8 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	ofstream fout;
 	string name;
 	cout << "Enter name file: ";
-	cin >> name;
+	cin.ignore();
+	getline(cin, name);
 	fout.open(name, ios::out);
 	if (fout.is_open())
 	{
@@ -215,13 +216,13 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 
 		for (CPipe p : pipes)
 		{
-			fout << p.id << endl << p.diametr << endl
+			fout << p.GetId() << endl << p.diametr << endl
 				<< p.length << endl << p.repair << endl << endl;
 		}
 		for (CCS i : cs)
 		{
 			fout.precision(2);
-			fout << i.id << endl << i.name << endl << i.totalShop << endl
+			fout << i.GetId() << endl << i.name << endl << i.totalShop << endl
 				<< i.workShop << endl << i.efficiency << endl << endl;
 		}
 		cout << "Saved\n\n";
@@ -234,7 +235,8 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 	ifstream fin;
 	string name;
 	cout << "Enter name file: ";
-	cin >> name;
+	cin.ignore();
+	getline(cin, name);
 	fin.open(name, ios::in);
 	if (fin.is_open())
 	{
@@ -243,16 +245,19 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 		fin >> lencs;
 		pipes.resize(lenpipe);
 		cs.resize(lencs);
+		int id;
 		for (CPipe& p : pipes)
 		{
-			fin >> p.id;
+			fin >> id;
+			p.SetId(id);
 			fin >> p.diametr;
 			fin >> p.length;
 			fin >> p.repair;
 		}
 		for (CCS& c : cs)
 		{
-			fin >> c.id;
+			fin >> id;
+			c.SetId(id);
 			fin >> c.name;
 			fin >> c.totalShop;
 			fin >> c.workShop;
@@ -265,7 +270,7 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 
 bool SearchById(CPipe& p, int param)
 {
-	return p.id == param;
+	return p.GetId() == param;
 }
 
 bool SearchByRepair(CPipe& p, int param)
@@ -290,7 +295,7 @@ void ForFilterPipes(vector<CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 	{
 		if (f(i, param))
 		{
-			cout << endl << "Pipe id: " << i.id << std::endl << "diametr: " << i.diametr << std::endl
+			cout << endl << "Pipe id: " << i.GetId() << std::endl << "diametr: " << i.diametr << std::endl
 				<< "length: " << i.length << std::endl << "pipe condition: " << WordRepair(i);
 		}
 	}
@@ -304,7 +309,7 @@ void ForFilterCs(vector<CCS>& cs, bool(*f)(CCS& p, N param), N param)
 		if (f(i, param))
 		{
 			cout.precision(2);
-			cout << "\nCS id: " << i.id << endl << "Name: " << i.name
+			cout << "\nCS id: " << i.GetId() << endl << "Name: " << i.name
 				<< endl << "Quantity of workshops: " << i.totalShop << endl
 				<< "Quantity of workshop workers: " << i.workShop << endl
 				<< "Efficiency: " << i.efficiency << endl << endl;
