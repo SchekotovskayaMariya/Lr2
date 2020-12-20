@@ -200,7 +200,7 @@ void ViewObjects(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 }
 
 
-void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
+void SaveAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 {
 	ofstream fout;
 	string name;
@@ -214,16 +214,16 @@ void SaveAll(vector<CPipe>& pipes, vector<CCS>& cs)
 		fout << cs.size() << endl;
 		fout << endl;
 
-		for (CPipe p : pipes)
+		for (auto p : pipes)
 		{
-			fout << p.id << endl << p.diametr << endl
-				<< p.length << endl << p.repair << endl << endl;
+			fout << p.second.id << endl << p.second.diametr << endl
+				<< p.second.length << endl << p.second.repair << endl << endl;
 		}
-		for (CCS i : cs)
+		for (auto i : cs)
 		{
 			fout.precision(2);
-			fout << i.id << endl << i.name << endl << i.totalShop << endl
-				<< i.workShop << endl << i.efficiency << endl << endl;
+			fout << i.second.id << endl << i.second.name << endl << i.second.totalShop << endl
+				<< i.second.workShop << endl << i.second.efficiency << endl << endl;
 		}
 		cout << "Saved\n\n";
 		fout.close();
@@ -351,7 +351,7 @@ void SearchByFilterCs(unordered_map<int, CCS>& cs)
 	}
 }
 
-void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
+void DeleteObject(unordered_map <int, CPipe>& pipes, unordered_map <int, CCS>& cs)
 {
 	cout << "1. Delete pipe\n2. Delete compressor station\nSelect action - ";
 	int choice = CheckNum(1, 2);
@@ -359,14 +359,14 @@ void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
 	{
 		cout << "Enter ID: ";
 		int ch = CheckNum(0, 100);
-		pipes.erase(pipes.begin() + ch);
+		pipes.erase( + ch);
 		cout << endl;
 	}
 	else
 	{
 		cout << "Enter ID: ";
 		int ch = CheckNum(0, 100);
-		cs.erase(cs.begin() + ch);
+		cs.erase( + ch);
 		cout << endl;
 	}
 }
