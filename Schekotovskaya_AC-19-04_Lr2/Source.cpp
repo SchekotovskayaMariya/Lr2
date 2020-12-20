@@ -6,6 +6,7 @@
 #include "CPipe.h"
 #include "Utils.h"
 #include <unordered_map>
+#include "GazTransNet.h"
 
 using namespace std;
 
@@ -52,8 +53,8 @@ void Menu()
 {
 	cout << "1. Add pipe" << endl << "2. Add compressor station" << endl << "3. Show objects" << endl
 		<< "4. Edit pipe" << endl << "5. Edit compressor station" << endl << "6. Search by filter" << endl
-		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl << "10. Topological sort" << endl
-		<< "0. Exit" << endl << endl << "Selected action - ";
+		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl <<"10. Setup connection" << endl 
+		<< "11. Topological sort" << endl << "0. Exit" << endl << endl << "Selected action - ";
 }
 
 void EditAllPipes(unordered_map<int, CPipe>& pipes)
@@ -232,23 +233,27 @@ void UploadAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 		int lenpipe, lencs;
 		fin >> lenpipe;
 		fin >> lencs;
-		//pipes.resize(lenpipe);//?
-		//cs.resize(lencs);//?
 		int id;
-		for (auto& p : pipes)
+		pipes.clear();
+		cs.clear();//!!!!!!!!!!!!!!!!!!!!!!!!!
+		for (size_t i = 0; i < lenpipe; i++)
 		{
-			fin >> p.second.id;
-			fin >> p.second.diametr;
-			fin >> p.second.length;
-			fin >> p.second.repair;
+			CPipe p;
+			fin >> p.id;// возмодно удалить точнее другой перменной присвоить
+			fin >> p.diametr;
+			fin >> p.length;
+			fin >> p.repair;
+			pipes.emplace(p.id, p);
 		}
-		for (auto& c : cs)
+		for (size_t i = 0; i < lencs; i++)
 		{
-			fin >> c.second.id;
-			fin >> c.second.name;
-			fin >> c.second.totalShop;
-			fin >> c.second.workShop;
-			fin >> c.second.efficiency;
+			CCS c;
+			fin >> c.id;
+			fin >> c.name;
+			fin >> c.totalShop;
+			fin >> c.workShop;
+			fin >> c.efficiency;
+			cs.emplace(c.id, c);
 		}
 		fin.close();
 		cout << "Data downloaded\n\n";
@@ -364,11 +369,12 @@ int main()
 {
 	unordered_map <int, CPipe> pipes;
 	unordered_map <int, CCS> cs;
+	GazTransNet g;
 	while (true)
 	{
 		Menu();
 
-		switch (CheckNum(0, 10))
+		switch (CheckNum(0, 11))
 		{
 		case 1:
 		{
@@ -431,7 +437,12 @@ int main()
 		}
 		case 10:
 		{
-
+			g.EstablishConnection(pipes, cs);
+			break;
+		}		
+		case 11:
+		{
+			g.TopologicalSorting(pipes);
 			break;
 		}
 		case 0:
