@@ -141,11 +141,14 @@
   <ItemGroup>
     <ClCompile Include="CCS.cpp" />
     <ClCompile Include="CPipe.cpp" />
+    <ClCompile Include="GazTransNet.cpp" />
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CCS.h" />
     <ClInclude Include="CPipe.h" />
+    <ClInclude Include="GazTransNet.h" />
+    <ClInclude Include="Utils.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

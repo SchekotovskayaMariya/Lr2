@@ -4,22 +4,11 @@
 #include <fstream>
 #include "CCS.h"
 #include "CPipe.h"
+#include "Utils.h"
 #include <unordered_map>
 
 using namespace std;
 
-template <typename T>
-T CheckNum(T min, T max)
-{
-	T x;
-	while ((cin >> x).fail() || x < min || x > max)
-	{
-		cout << "Please enter a valid value - ";
-		cin.clear();
-		cin.ignore(1000, '\n');
-	}
-	return x;
-}
 
 string WordRepair(CPipe& p)
 {
@@ -230,7 +219,7 @@ void SaveAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 	}
 }
 
-void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
+void UploadAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 {
 	ifstream fin;
 	string name;
@@ -243,23 +232,23 @@ void UploadAll(vector<CPipe>& pipes, vector<CCS>& cs)
 		int lenpipe, lencs;
 		fin >> lenpipe;
 		fin >> lencs;
-		pipes.resize(lenpipe);
-		cs.resize(lencs);
+		//pipes.resize(lenpipe);//?
+		//cs.resize(lencs);//?
 		int id;
-		for (CPipe& p : pipes)
+		for (auto& p : pipes)
 		{
-			fin >> p.id;
-			fin >> p.diametr;
-			fin >> p.length;
-			fin >> p.repair;
+			fin >> p.second.id;
+			fin >> p.second.diametr;
+			fin >> p.second.length;
+			fin >> p.second.repair;
 		}
-		for (CCS& c : cs)
+		for (auto& c : cs)
 		{
-			fin >> c.id;
-			fin >> c.name;
-			fin >> c.totalShop;
-			fin >> c.workShop;
-			fin >> c.efficiency;
+			fin >> c.second.id;
+			fin >> c.second.name;
+			fin >> c.second.totalShop;
+			fin >> c.second.workShop;
+			fin >> c.second.efficiency;
 		}
 		fin.close();
 		cout << "Data downloaded\n\n";
@@ -289,12 +278,12 @@ bool SearchByPercent(CCS& cs, int param)
 template <typename N>
 void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 {
-	for (CPipe& i : pipes)//надо ли авто надо ли секонд
+	for (auto& i : pipes)//надо ли авто надо ли секонд
 	{
-		if (f(i, param))
+		if (f(i.second, param))
 		{
-			cout << endl << "Pipe id: " << i.id << std::endl << "diametr: " << i.diametr << std::endl
-				<< "length: " << i.length << std::endl << "pipe condition: " << WordRepair(i);
+			cout << endl << "Pipe id: " << i.second.id << std::endl << "diametr: " << i.second.diametr << std::endl
+				<< "length: " << i.second.length << std::endl << "pipe condition: " << WordRepair(i.second);
 		}
 	}
 	cout << endl;
@@ -302,15 +291,15 @@ void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param
 template <typename N>
 void ForFilterCs(unordered_map<int, CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
-	for (CCS& i : cs)//надо ли авто надо ли секонды
+	for (auto& i : cs)//надо ли авто надо ли секонды
 	{
-		if (f(i, param))
+		if (f(i.second, param))
 		{
 			cout.precision(2);
-			cout << "\nCS id: " << i.id << endl << "Name: " << i.name
-				<< endl << "Quantity of workshops: " << i.totalShop << endl
-				<< "Quantity of workshop workers: " << i.workShop << endl
-				<< "Efficiency: " << i.efficiency << endl << endl;
+			cout << "\nCS id: " << i.second.id << endl << "Name: " << i.second.name
+				<< endl << "Quantity of workshops: " << i.second.totalShop << endl
+				<< "Quantity of workshop workers: " << i.second.workShop << endl
+				<< "Efficiency: " << i.second.efficiency << endl << endl;
 		}
 	}
 	cout << endl;
@@ -359,14 +348,14 @@ void DeleteObject(unordered_map <int, CPipe>& pipes, unordered_map <int, CCS>& c
 	{
 		cout << "Enter ID: ";
 		int ch = CheckNum(0, 100);
-		pipes.erase( + ch);
+		pipes.erase(ch);
 		cout << endl;
 	}
 	else
 	{
 		cout << "Enter ID: ";
 		int ch = CheckNum(0, 100);
-		cs.erase( + ch);
+		cs.erase(ch);
 		cout << endl;
 	}
 }

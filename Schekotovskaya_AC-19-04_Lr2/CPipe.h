@@ -10,5 +10,7 @@
 		static int CountP;
 		float diametr, length;
 		bool repair = false;
+		int begin = -1,
+		end = -1;
 		CPipe();
 	};
