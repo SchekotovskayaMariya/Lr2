@@ -116,7 +116,6 @@ bool GazTransNet::ZeroMatrix(const int& size)
 int GazTransNet::SearchZeroHalfStepNodes(const vector<int>& nodes, deque<int> TopologicNodes)
 {
 	int size = nodes.size();
-	std::cout << "2. Search for the first vertex with a zero half-step of the outcome: ";
 	int addNode = 0;
 	int index = -1;
 	int k = 1;
@@ -170,8 +169,6 @@ int GazTransNet::SearchZeroHalfStepNodes(const vector<int>& nodes, deque<int> To
 	{
 		addNode = nodes[index];
 
-		std::cout << addNode << std::endl;
-		std::cout << "3. Delete all connection" << std::endl;
 		for (size_t j = 0; j < size; j++)
 		{
 			matrix[index][j] = 0;
@@ -246,23 +243,10 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 	}
 
 	size = nodes.size();
-	matrix = new int* [size];
-	for (size_t i = 0; i < size; i++)
-	{
-		matrix[i] = new int[size]; 
-		for (size_t j = 0; j < size; j++)
-		{
-			matrix[i][j] = 0;
-		}
-	}
-
-	for (const int& i : nodes)
-		cout << "add - " << i << endl;
+	matrix.resize(size, vector<int>(size));
 
 	FillingMatrix(InOut, nodes);
-	ViewMatrix(nodes);
-
-	std::cout << "\nTopological sorting...\n";
+	
 	deque<int> TopologicNodes;
 	bool loop = true;
 	int addNode = 0;
@@ -270,7 +254,7 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 	{
 		addNode = 0;
 		addNode = SearchZeroHalfStepNodes(nodes, TopologicNodes);
-		ViewMatrix(nodes);
+		
 		if (addNode == -100)
 		{
 			std::cout << "\nThe graph contains a loop\n";
@@ -279,7 +263,6 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 		else
 		{
 			TopologicNodes.push_back(addNode);
-			std::cout << "\n3. If the matrix is nonzero do point 2\n";
 		}
 	}
 	if (loop)
@@ -301,7 +284,7 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 				TopologicNodes.push_back(i);
 			}
 		}
-		std::cout << "Else answer: ";
+	
 		std::cout << "Result topological sorting: \n";
 		bool is_first = true;
 		while (!TopologicNodes.empty())
@@ -326,19 +309,6 @@ void GazTransNet::DeleteConnect(unordered_map<int, CPipe>& pipes)
 	pipes[choice].end = -1;
 }
 
-GazTransNet::GazTransNet()
-{
-	matrix = new int* [size];
-	for (int i = 0; i < size; i++)
-		matrix[i] = new int[size];
-}
-
-GazTransNet::~GazTransNet()
-{
-	for (int i = 0; i < size; i++)
-		delete[] matrix[i];
-	delete[] matrix;
-}
 
 void GazTransNet::ViewLink(const vector<int>& nodes) {
 
@@ -387,5 +357,6 @@ void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<
 
 	for (size_t i = 0; i < size; i++)
 	{
-		link[i][i] = 0; 
+		link[i][i] = 0;
+	}
 }

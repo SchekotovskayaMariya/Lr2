@@ -7,8 +7,6 @@
 class GazTransNet
 {
 public:
-	GazTransNet();
-	~GazTransNet();
 	void EstablishConnection(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs);
 	void CurrentState(const unordered_map<int, CPipe>& pipes);
 	void TopologicalSorting(const unordered_map<int, CPipe>& pipes);
@@ -16,7 +14,7 @@ public:
 	void DeleteConnect(unordered_map<int, CPipe>& pipes);
 
 private:
-	int** matrix;
+	vector<vector<int>>matrix;
 	int size = 0;
 	void ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes);
 	void ViewMatrix(const vector<int>& nodes);

@@ -90,6 +90,14 @@ void EditPipe(unordered_map <int, CPipe>& pipes)
 		cout << endl;
 		EditOnePipe(pipes);
 	}
+	for (auto& i : pipes)
+	{
+		if (i.second.repair == 1)
+		{
+			i.second.begin = -2;
+			i.second.end = -2;
+		}
+	}
 }
 
 void EditAllCs(unordered_map<int, CCS>& cs)
@@ -204,10 +212,10 @@ void SaveAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 		fout << cs.size() << endl;
 		fout << endl;
 
-		for (auto p : pipes)
+		for (const auto& p : pipes)//константная ссылка?
 		{
 			fout << p.second.id << endl << p.second.diametr << endl
-				<< p.second.length << endl << p.second.repair << endl << endl;
+				<< p.second.length << endl << p.second.repair << endl << p.second.begin << endl << p.second.end << endl << endl;
 		}
 		for (auto i : cs)
 		{
@@ -235,14 +243,16 @@ void UploadAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 		fin >> lencs;
 		int id;
 		pipes.clear();
-		cs.clear();//!!!!!!!!!!!!!!!!!!!!!!!!!
+		cs.clear();
 		for (size_t i = 0; i < lenpipe; i++)
 		{
 			CPipe p;
-			fin >> p.id;// возмодно удалить точнее другой перменной присвоить
+			fin >> p.id;
 			fin >> p.diametr;
 			fin >> p.length;
 			fin >> p.repair;
+			fin >> p.begin;
+			fin >> p.end;
 			pipes.emplace(p.id, p);
 		}
 		for (size_t i = 0; i < lencs; i++)
@@ -283,7 +293,7 @@ bool SearchByPercent(CCS& cs, int param)
 template <typename N>
 void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 {
-	for (auto& i : pipes)//надо ли авто надо ли секонд
+	for (auto& i : pipes)
 	{
 		if (f(i.second, param))
 		{
@@ -296,7 +306,7 @@ void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param
 template <typename N>
 void ForFilterCs(unordered_map<int, CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
-	for (auto& i : cs)//надо ли авто надо ли секонды
+	for (auto& i : cs)
 	{
 		if (f(i.second, param))
 		{
@@ -360,6 +370,14 @@ void DeleteObject(unordered_map <int, CPipe>& pipes, unordered_map <int, CCS>& c
 	{
 		cout << "Enter ID: ";
 		int ch = CheckNum(0, 100);
+		for (auto& i : pipes)
+		{
+			if (ch == i.second.begin || ch == i.second.end)
+			{
+				i.second.begin = -1;
+				i.second.end = -1;
+			}
+		}
 		cs.erase(ch);
 		cout << endl;
 	}
@@ -456,5 +474,4 @@ int main()
 		}
 	}
 	return 0;
-
 }
