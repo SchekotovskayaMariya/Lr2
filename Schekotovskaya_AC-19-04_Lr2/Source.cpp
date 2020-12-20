@@ -289,7 +289,7 @@ bool SearchByPercent(CCS& cs, int param)
 template <typename N>
 void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param), N param)
 {
-	for (auto& i : pipes)//надо ли авто надо ли секонд
+	for (CPipe& i : pipes)//надо ли авто надо ли секонд
 	{
 		if (f(i, param))
 		{
@@ -300,9 +300,9 @@ void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param
 	cout << endl;
 }
 template <typename N>
-void ForFilterCs(vector<CCS>& cs, bool(*f)(CCS& p, N param), N param)
+void ForFilterCs(unordered_map<int, CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
-	for (CCS& i : cs)
+	for (CCS& i : cs)//надо ли авто надо ли секонды
 	{
 		if (f(i, param))
 		{
@@ -332,7 +332,7 @@ void SearchByFilterPipes(unordered_map<int, CPipe>& pipes)
 		ForFilterPipes(pipes, SearchByRepair, choice);
 	}
 }
-void SearchByFilterCs(vector<CCS>& cs)
+void SearchByFilterCs(unordered_map<int, CCS>& cs)
 {
 	cout << "\n1. By name\n" << "2. By percentage of unused workshops\nSelect action - ";
 	if (CheckNum(1, 2) == 1)
