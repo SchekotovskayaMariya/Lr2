@@ -4,7 +4,7 @@
 #include <fstream>
 #include "CCS.h"
 #include "CPipe.h"
-
+#include <unordered_map>
 
 using namespace std;
 
@@ -63,7 +63,7 @@ void Menu()
 {
 	cout << "1. Add pipe" << endl << "2. Add compressor station" << endl << "3. Show objects" << endl
 		<< "4. Edit pipe" << endl << "5. Edit compressor station" << endl << "6. Search by filter" << endl
-		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl
+		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl << "10. Topological sort" << endl
 		<< "0. Exit" << endl << endl << "Selected action - ";
 }
 
@@ -380,7 +380,7 @@ int main()
 	{
 		Menu();
 
-		switch (CheckNum(0, 9))
+		switch (CheckNum(0, 10))
 		{
 		case 1:
 		{
@@ -433,6 +433,11 @@ int main()
 		case 9:
 		{
 			UploadAll(pipes, cs);
+			break;
+		}
+		case 10:
+		{
+
 			break;
 		}
 		case 0:
