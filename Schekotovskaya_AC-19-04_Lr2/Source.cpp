@@ -410,7 +410,10 @@ int main()
 		}
 		case 5:
 		{
-			EditCs(cs);
+			if (cs.size() != 0)
+				EditCs(cs);
+			else
+				cout << "First, create a  compressor station ...\n\n";
 			break;
 		}
 		case 6:
