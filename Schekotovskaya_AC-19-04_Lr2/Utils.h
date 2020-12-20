@@ -63,25 +63,22 @@ void ViewAllName(const unordered_map<int, C> object)
 	cout << endl;
 }
 
-//Ñòîèò ëè â range based for ïèñàòü const & ? 
-// ïî÷åìó âûçûâàåòñÿ ïîâòîð? ìåíÿë íà while
-// ïî÷åìó íà ïðîòèâ while ñòîÿò âîñê çíàêè ìåíÿë è òóäà è òóäà
+
 template<typename C>
 string CheckChoiceName(unordered_map<int, C>& pc)
 {
 	string choice = "";
 	do
-		//{
-		//while (true)
+	
 	{
 		cout << "\nChoice Name - ";
-		cin.ignore(100, '\n'); // ïî÷åìó âûçûâàåòñÿ ïîâòîð?
+		cin.ignore(100, '\n'); 
 		getline(cin, choice);
 		for (auto& i : pc)
 		{
 			if (choice == i.second.name)
 				return choice;
 		}
-		//}
-	} while (true);//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+		
+	} while (true);
 }
