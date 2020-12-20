@@ -152,7 +152,7 @@ void EditCs(vector<CCS>& cs)
 }
 
 
-void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
+void ViewObjects(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 {
 	cout << "1. View all\n" << "2. View pipes\n" << "3. View compressor stations\nSelect - ";
 	switch (CheckNum(1, 3))
@@ -160,18 +160,18 @@ void ViewObjects(vector<CPipe>& pipes, vector<CCS>& cs)
 	case 1:
 	{
 		cout << endl;
-		for (CPipe p : pipes)
+		for (auto& p : pipes)//надо ли ссылку
 		{
-			cout << "Pipe id: " << p.id << std::endl << "diametr: " << p.diametr << std::endl
-				<< "length: " << p.length << std::endl << "pipe condition: " << WordRepair(p);
+			cout << "Pipe id: " << p.second.id << std::endl << "diametr: " << p.second.diametr << std::endl
+				<< "length: " << p.second.length << std::endl << "pipe condition: " << WordRepair(p.second);
 		}
-		for (CCS c : cs)
+		for (auto& c : cs)//надо ли ссылку
 		{
 			cout.precision(2);
-			cout << "\nCS id: " << c.id << endl << "Name: " << c.name
-				<< endl << "Quantity of workshops: " << c.totalShop << endl
-				<< "Quantity of workshop workers: " << c.workShop << endl
-				<< "Efficiency: " << c.efficiency << endl << endl;
+			cout << "\nCS id: " << c.second.id << endl << "Name: " << c.second.name
+				<< endl << "Quantity of workshops: " << c.second.totalShop << endl
+				<< "Quantity of workshop workers: " << c.second.workShop << endl
+				<< "Efficiency: " << c.second.efficiency << endl << endl;
 		}
 		break;
 	}
@@ -373,9 +373,8 @@ void DeleteObject(vector <CPipe>& pipes, vector <CCS>& cs)
 
 int main()
 {
-	vector <CPipe> pipes;
-	vector <CCS> cs;
-
+	unordered_map <int, CPipe> pipes;
+	unordered_map <int, CCS> cs;
 	while (true)
 	{
 		Menu();
@@ -386,14 +385,14 @@ int main()
 		{
 			CPipe p;
 			cin >> p;
-			pipes.push_back(p);
+			pipes.emplace(p.id, p);
 			break;
 		}
 		case 2:
 		{
 			CCS c;
 			cin >> c;
-			cs.push_back(c);
+			cs.emplace(c.id, c);
 			break;
 		}
 		case 3:
@@ -403,7 +402,10 @@ int main()
 		}
 		case 4:
 		{
-			EditPipe(pipes);
+			if (pipes.size() != 0)
+				EditPipe(pipes);
+			else
+				cout << "First, create a pipe ...\n\n";
 			break;
 		}
 		case 5:
