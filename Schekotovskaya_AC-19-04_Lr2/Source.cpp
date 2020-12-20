@@ -67,17 +67,17 @@ void Menu()
 		<< "0. Exit" << endl << endl << "Selected action - ";
 }
 
-void EditAllPipes(vector<CPipe>& pipes)
+void EditAllPipes(unordered_map<int, CPipe>& pipes)
 {
 	cout << "0. Pipes working\n1. Pipes in repair\nChoose - ";
 	int choice = CheckNum(0, 1);
 	cout << endl;
-	for (CPipe& i : pipes)
+	for (auto& i : pipes)
 	{
-		i.repair = choice;
+		i.second.repair = choice;
 	}
 }
-void EditOnePipe(vector<CPipe>& pipes)
+void EditOnePipe(unordered_map<int, CPipe>& pipes)
 {
 	cout << "Select id you want to edit: ";
 	int k;
@@ -87,7 +87,7 @@ void EditOnePipe(vector<CPipe>& pipes)
 	pipes[k].repair = choice;
 	cout << endl;
 }
-void EditPipe(vector<CPipe>& pipes)
+void EditPipe(unordered_map <int, CPipe>& pipes)
 {
 	cout << "1. Edit all existing ones\n2. Edit one pipe\nSelect - ";
 	if (CheckNum(1, 2) == 1)
