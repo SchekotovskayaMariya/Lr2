@@ -102,24 +102,24 @@ void EditPipe(unordered_map <int, CPipe>& pipes)
 	}
 }
 
-void EditAllCs(vector<CCS>& cs)
+void EditAllCs(unordered_map<int, CCS>& cs)
 {
 	cout << "\n0. Start the workshop\n1. Stop the workshop\nSelect - ";
 	int choice = CheckNum(0, 1);
 	cout << endl;
-	for (CCS& i : cs)
+	for (auto& i : cs)
 	{
 		if (choice == 0)
 		{
-			i.workShop += 1;
+			i.second.workShop += 1;
 		}
-		else if (i.workShop > 0)
+		else if (i.second.workShop > 0)
 		{
-			i.workShop -= 1;
+			i.second.workShop -= 1;
 		}
 	}
 }
-void EditOneCs(vector<CCS>& cs)
+void EditOneCs(unordered_map<int, CCS>& cs)
 {
 	cout << "Id of the compressor station you want to edit: ";
 	int k;
@@ -136,7 +136,7 @@ void EditOneCs(vector<CCS>& cs)
 	}
 }
 
-void EditCs(vector<CCS>& cs)
+void EditCs(unordered_map <int, CCS>& cs)
 {
 	cout << "1. Edit all existing ones\n2. Edit one cs\nSelect - ";
 	if (CheckNum(1, 2) == 1)
