@@ -11,13 +11,3 @@ CPipe::CPipe()
 	id = CountP;
 	CountP++;
 }
-
-int CPipe::GetId()
-{
-	return id;
-}
-
-void CPipe::SetId(int& id)
-{
-	this->id = id;
-}

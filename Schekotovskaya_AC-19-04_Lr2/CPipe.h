@@ -5,14 +5,10 @@
 
 	class CPipe
 	{
-	private:
-		int id;
-
 	public:
+		int id;
 		static int CountP;
 		float diametr, length;
 		bool repair = false;
 		CPipe();
-		int GetId();
-		void SetId(int& id);
 	};

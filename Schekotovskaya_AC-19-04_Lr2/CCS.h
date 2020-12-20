@@ -6,14 +6,11 @@ using namespace std;
 
 class CCS
 {
-private:
-	int id;
 public:
+	int id;
 	static int CountCs;
 	int totalShop, workShop;
 	float efficiency;
 	string name;
 	CCS();
-	int GetId();
-	void SetId(int& id);
 };
