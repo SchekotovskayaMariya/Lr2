@@ -458,7 +458,7 @@ int main()
 		}		
 		case 11:
 		{
-			g.TopologicalSorting();
+			g.TopologicalSorting(pipes);
 			break;
 		}
 		case 0:

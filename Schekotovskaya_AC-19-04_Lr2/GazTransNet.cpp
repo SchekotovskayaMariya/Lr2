@@ -265,7 +265,7 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 	{
 		addNode = SearchZeroHalfStepNodes(nodes, TopologicNodes);
 		
-		if (addNode == -10)
+		if (addNode == -100)
 		{
 			std::cout << "\nThe graph contains a loop\n";
 	
