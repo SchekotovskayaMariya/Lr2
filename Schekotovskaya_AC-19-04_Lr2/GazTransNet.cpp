@@ -199,6 +199,16 @@ void GazTransNet::DeleteGraph(unordered_map<int, CPipe>& pipes)
 	}
 }
 
+void BubbleSort(vector<int>& values) {
+	for (size_t idx_i = 0; idx_i + 1 < values.size(); ++idx_i) {
+		for (size_t idx_j = 0; idx_j + 1 < values.size() - idx_i; ++idx_j) {
+			if (values[idx_j + 1] < values[idx_j]) {
+				swap(values[idx_j], values[idx_j + 1]);
+			}
+		}
+	}
+}
+
 void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 {
 	vector <pair<int, int>> InOut;
@@ -239,8 +249,9 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 		}
 		if (add == 1)
 			nodes.push_back(i.second);
-
 	}
+
+	BubbleSort(nodes);
 
 	size = nodes.size();
 	matrix.resize(size, vector<int>(size));
@@ -267,7 +278,6 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 	}
 	if (loop)
 	{
-		
 		int k = 1;
 		for (const int& i : nodes)
 		{
@@ -298,65 +308,4 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 		cout << endl << endl;
 	}
 
-}
-
-void GazTransNet::DeleteConnect(unordered_map<int, CPipe>& pipes)
-{
-	cout << "Select the pipe you want to break the connection - ";
-	ViewAllId(pipes);
-	int choice = CheckChoiceId(pipes);
-	pipes[choice].begin = -1;
-	pipes[choice].end = -1;
-}
-
-
-void GazTransNet::ViewLink(const vector<int>& nodes) {
-
-	int size = nodes.size();
-	cout << endl << "\t";
-	for (const auto& s : nodes)
-	{
-		cout << s << "\t";
-	}
-	cout << endl;
-
-	int count = 0;
-	for (const auto& s : nodes)
-	{
-		cout << s << "\t";
-		for (size_t i = 0; i < size; i++)
-		{
-			cout << link[count][i] << "\t";
-		}
-		cout << endl;
-		++count;
-	}
-}
-
-void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<int>& nodes, const unordered_map<int, CPipe>& pipes) {
-
-	int size = nodes.size();
-	std::pair<int, int> io;
-	for (const auto& i : InOut)
-	{
-		for (size_t j = 0; j < size; j++)
-		{
-			if (i.first == nodes[j])
-				io.first = j;
-			if (i.second == nodes[j])
-				io.second = j;
-		}
-
-		for (const auto& j : pipes) {
-			if (j.second.begin == i.first && j.second.end == i.second)
-			{
-				link[io.first][io.second] = j.second.length;
-			}
-		}
-	}
-
-	for (size_t i = 0; i < size; i++)
-	{
-		link[i][i] = 0;
-	}
 }

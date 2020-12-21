@@ -11,7 +11,7 @@
 using namespace std;
 
 
-string WordRepair(CPipe& p)
+string WordRepair(const CPipe& p)
 {
 	if (p.repair)
 	{
@@ -149,7 +149,6 @@ void EditCs(unordered_map <int, CCS>& cs)
 	}
 }
 
-
 void ViewObjects(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 {
 	cout << "1. View all\n" << "2. View pipes\n" << "3. View compressor stations\nSelect - ";
@@ -158,12 +157,12 @@ void ViewObjects(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 	case 1:
 	{
 		cout << endl;
-		for (auto& p : pipes)//надо ли ссылку
+		for (const auto& p : pipes)
 		{
 			cout << "Pipe id: " << p.second.id << std::endl << "diametr: " << p.second.diametr << std::endl
 				<< "length: " << p.second.length << std::endl << "pipe condition: " << WordRepair(p.second);
 		}
-		for (auto& c : cs)//надо ли ссылку
+		for (const auto& c : cs)
 		{
 			cout.precision(2);
 			cout << "\nCS id: " << c.second.id << endl << "Name: " << c.second.name
@@ -197,7 +196,6 @@ void ViewObjects(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 	}
 }
 
-
 void SaveAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 {
 	ofstream fout;
@@ -212,12 +210,12 @@ void SaveAll(unordered_map<int, CPipe>& pipes, unordered_map<int, CCS>& cs)
 		fout << cs.size() << endl;
 		fout << endl;
 
-		for (const auto& p : pipes)//константная ссылка?
+		for (const auto& p : pipes)
 		{
 			fout << p.second.id << endl << p.second.diametr << endl
 				<< p.second.length << endl << p.second.repair << endl << p.second.begin << endl << p.second.end << endl << endl;
 		}
-		for (auto i : cs)
+		for (const auto& i : cs)
 		{
 			fout.precision(2);
 			fout << i.second.id << endl << i.second.name << endl << i.second.totalShop << endl
