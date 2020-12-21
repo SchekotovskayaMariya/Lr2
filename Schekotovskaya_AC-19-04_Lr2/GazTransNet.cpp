@@ -251,12 +251,12 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 			nodes.push_back(i.second);
 	}
 
-	BubbleSort(nodes);
+	/*BubbleSort(nodes);
 
 	size = nodes.size();
 	matrix.resize(size, vector<int>(size));
 
-	FillingMatrix(InOut, nodes);
+	FillingMatrix(InOut, nodes);*/
 	
 	deque<int> TopologicNodes;
 	bool loop = true;
