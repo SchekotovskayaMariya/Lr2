@@ -268,7 +268,7 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 		if (addNode == -100)
 		{
 			std::cout << "\nThe graph contains a loop\n";
-	
+			loop = false;
 		}
 		else
 		{
@@ -283,9 +283,7 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 			k = 1;
 			for (const int& j : TopologicNodes)
 			{
-				if (i != j)
-					k *= 1;
-				else
+				
 					k *= 0;
 			}
 			if (k == 1)
