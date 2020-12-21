@@ -209,6 +209,7 @@ void BubbleSort(vector<int>& values) {
 	}
 }
 
+
 void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 {
 	vector <pair<int, int>> InOut;
@@ -251,13 +252,13 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 			nodes.push_back(i.second);
 	}
 
-	/*BubbleSort(nodes);
+	BubbleSort(nodes);
 
 	size = nodes.size();
 	matrix.resize(size, vector<int>(size));
 
-	FillingMatrix(InOut, nodes);*/
-	
+	FillingMatrix(InOut, nodes);
+	ViewMatrix(nodes);
 	deque<int> TopologicNodes;
 	bool loop = true;
 	int addNode = 0;
@@ -307,5 +308,5 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 		}
 		cout << endl << endl;
 	}
-
+	ViewMatrix(nodes);
 }
