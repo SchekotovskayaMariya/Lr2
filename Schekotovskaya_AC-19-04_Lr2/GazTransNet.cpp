@@ -146,11 +146,6 @@ void GazTransNet::view_max_flow(const unordered_map<int, CPipe>& pipes, int& sou
 	else
 		n = source + 1;
 
-
-
-	//cout << "\n\nn = " << n << endl;
-
-	//n = stock + 1;
 	link.resize(size, vector<int>(size));
 	flow.resize(size, vector<int>(size));
 	color.resize(size);
@@ -159,7 +154,7 @@ void GazTransNet::view_max_flow(const unordered_map<int, CPipe>& pipes, int& sou
 
 	for (auto& i : link) {
 		for (int& j : i) {
-			j = 0;// ïîòîì 88
+			j = 0;
 		}
 	}
 	FillingLink(InOut, nodes, pipes);
@@ -529,7 +524,7 @@ void GazTransNet::ViewLink(const vector<int>& nodes) {
 void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<int>& nodes, const unordered_map<int, CPipe>& pipes) {
 
 	int size = nodes.size();
-	std::pair<int, int> io;//èíåäêñû õðàíÿòñÿ
+	std::pair<int, int> io;
 	for (const auto& i : InOut)
 	{
 		for (size_t j = 0; j < size; j++)
@@ -550,6 +545,7 @@ void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<
 
 	for (size_t i = 0; i < size; i++)
 	{
-		link[i][i] = 0; // åñëè âäðóã áóäåò ïåòëÿ
+		link[i][i] = 0; 
 	}
 }
+
