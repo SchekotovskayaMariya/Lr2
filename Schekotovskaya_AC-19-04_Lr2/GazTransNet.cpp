@@ -36,6 +36,33 @@ int deq()
 	return x;
 }
 
+int GazTransNet::bfs(int start, int end)
+{
+	int u, v;
+	for (u = 0; u < n; u++)
+		color[u] = WHITE;
+
+	head = 0;
+	tail = 0;
+	enque(start);
+	pred[start] = -1;
+	while (head != tail)
+	{
+		u = deq();
+		for (v = 0; v < n; v++)
+		{
+
+			if (color[v] == WHITE && (link[u][v] - flow[u][v]) > 0) {
+				enque(v);
+				pred[v] = u;
+			}
+		}
+	}
+	if (color[end] == BLACK)
+		return 0;
+	else return 1;
+}
+
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
 	bool is_first = true;
