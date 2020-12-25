@@ -54,7 +54,7 @@ void Menu()
 	cout << "1. Add pipe" << endl << "2. Add compressor station" << endl << "3. Show objects" << endl
 		<< "4. Edit pipe" << endl << "5. Edit compressor station" << endl << "6. Search by filter" << endl
 		<< "7. Delete object" << endl << "8. Save to file" << endl << "9. Download from file" << endl <<"10. Setup connection" << endl 
-		<< "11. Topological sort" << endl << "0. Exit" << endl << endl << "Selected action - ";
+		<< "11. Topological sort" << endl<< "12. Shortcut" << endl<< "13. Max flow" << endl << "0. Exit" << endl << endl << "Selected action - ";
 }
 
 void EditAllPipes(unordered_map<int, CPipe>& pipes)
@@ -67,6 +67,7 @@ void EditAllPipes(unordered_map<int, CPipe>& pipes)
 		i.second.repair = choice;
 	}
 }
+
 void EditOnePipe(unordered_map<int, CPipe>& pipes)
 {
 	cout << "Select id you want to edit: ";
@@ -77,6 +78,7 @@ void EditOnePipe(unordered_map<int, CPipe>& pipes)
 	pipes[k].repair = choice;
 	cout << endl;
 }
+
 void EditPipe(unordered_map <int, CPipe>& pipes)
 {
 	cout << "1. Edit all existing ones\n2. Edit one pipe\nSelect - ";
@@ -117,6 +119,7 @@ void EditAllCs(unordered_map<int, CCS>& cs)
 		}
 	}
 }
+
 void EditOneCs(unordered_map<int, CCS>& cs)
 {
 	cout << "Id of the compressor station you want to edit: ";
@@ -301,6 +304,7 @@ void ForFilterPipes(unordered_map<int, CPipe>& pipes, bool(*f)(CPipe& p, N param
 	}
 	cout << endl;
 }
+
 template <typename N>
 void ForFilterCs(unordered_map<int, CCS>& cs, bool(*f)(CCS& p, N param), N param)
 {
@@ -334,6 +338,7 @@ void SearchByFilterPipes(unordered_map<int, CPipe>& pipes)
 		ForFilterPipes(pipes, SearchByRepair, choice);
 	}
 }
+
 void SearchByFilterCs(unordered_map<int, CCS>& cs)
 {
 	cout << "\n1. By name\n" << "2. By percentage of unused workshops\nSelect action - ";
@@ -390,7 +395,7 @@ int main()
 	{
 		Menu();
 
-		switch (CheckNum(0, 11))
+		switch (CheckNum(0, 13))
 		{
 		case 1:
 		{
@@ -459,6 +464,21 @@ int main()
 		case 11:
 		{
 			g.TopologicalSorting(pipes);
+			break;
+		}
+		case 12: 
+		{
+			cout << "\nChoice begin vertix\n";
+			g.Shortcut(pipes, CheckChoiceId(cs));
+			break;
+		}
+		case 13: 
+		{
+			cout << "Choice source and stock vetrixes - ";
+			ViewAllId(cs);
+			int source = CheckChoiceId(cs),
+				stock = CheckChoiceId(cs);
+			g.view_max_flow(pipes, source, stock);
 			break;
 		}
 		case 0:

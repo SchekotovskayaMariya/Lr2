@@ -28,6 +28,7 @@ void enque(int x)
 	tail++;
 	color[x] = GREY;
 }
+
 int deq()
 {
 	int x = q[head];
@@ -161,9 +162,6 @@ void GazTransNet::view_max_flow(const unordered_map<int, CPipe>& pipes, int& sou
 	cout << endl;
 	ViewLink(nodes);
 	cout << "Max flow: " << max_flow(source, stock) << endl;
-
-	cout << "\n\nn = " << n << endl;
-
 }
 
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
@@ -373,7 +371,6 @@ void BubbleSort(vector<int>& values) {
 	}
 }
 
-
 void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 {
 	vector <pair<int, int>> InOut;
@@ -482,20 +479,6 @@ void GazTransNet::DeleteConnect(unordered_map<int, CPipe>& pipes)
 	int choice = CheckChoiceId(pipes);
 	pipes[choice].begin = -1;
 	pipes[choice].end = -1;
-}
-
-GazTransNet::GazTransNet()
-{
-	matrix = new int* [size];
-	for (int i = 0; i < size; i++)
-		matrix[i] = new int[size];
-}
-
-GazTransNet::~GazTransNet()
-{
-	for (int i = 0; i < size; i++)
-		delete[] matrix[i];
-	delete[] matrix;
 }
 
 void GazTransNet::ViewLink(const vector<int>& nodes) {
