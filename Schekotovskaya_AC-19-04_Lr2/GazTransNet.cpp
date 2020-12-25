@@ -162,6 +162,14 @@ void GazTransNet::view_max_flow(const unordered_map<int, CPipe>& pipes, int& sou
 			j = 0;// ïîòîì 88
 		}
 	}
+	FillingLink(InOut, nodes, pipes);
+	cout << endl;
+	ViewLink(nodes);
+	cout << "Max flow: " << max_flow(source, stock) << endl;
+
+	cout << "\n\nn = " << n << endl;
+
+}
 
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
