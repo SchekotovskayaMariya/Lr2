@@ -502,3 +502,26 @@ GazTransNet::~GazTransNet()
 		delete[] matrix[i];
 	delete[] matrix;
 }
+
+void GazTransNet::ViewLink(const vector<int>& nodes) {
+
+	int size = nodes.size();
+	cout << endl << "\t";
+	for (const auto& s : nodes)
+	{
+		cout << s << "\t";
+	}
+	cout << endl;
+
+	int count = 0;
+	for (const auto& s : nodes)
+	{
+		cout << s << "\t";
+		for (size_t i = 0; i < size; i++)
+		{
+			cout << link[count][i] << "\t";
+		}
+		cout << endl;
+		++count;
+	}
+}
