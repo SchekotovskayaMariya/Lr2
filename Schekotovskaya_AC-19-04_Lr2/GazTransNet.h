@@ -11,6 +11,11 @@ public:
 	void CurrentState(const unordered_map<int, CPipe>& pipes);
 	void TopologicalSorting(const unordered_map<int, CPipe>& pipes);
 	void DeleteGraph(unordered_map<int, CPipe>& pipes);
+	void DeleteConnect(unordered_map<int, CPipe>& pipes);
+
+	void Shortcut(const unordered_map<int, CPipe>& pipes, const int& choice);
+	int max_flow(int source, int stock);
+	void view_max_flow(const unordered_map<int, CPipe>& pipes, int& source, int& stock);
 
 private:
 	vector<vector<int>>matrix;
