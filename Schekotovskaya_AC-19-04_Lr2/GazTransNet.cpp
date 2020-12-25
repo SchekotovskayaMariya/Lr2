@@ -2,6 +2,26 @@
 #include "Utils.h"
 using namespace std;
 
+#define WHITE 0
+#define GREY 1
+#define BLACK 2
+
+int n;
+vector<vector<int>> flow;
+vector<int> color;
+vector<int> pred;
+vector<int> q;
+
+int head, tail;
+
+int min(int x, int y)
+{
+	if (x < y)
+		return x;
+	else
+		return y;
+}
+
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
 	bool is_first = true;
