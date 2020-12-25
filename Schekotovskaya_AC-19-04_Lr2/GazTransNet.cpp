@@ -22,6 +22,20 @@ int min(int x, int y)
 		return y;
 }
 
+void enque(int x)
+{
+	q[tail] = x;
+	tail++;
+	color[x] = GREY;
+}
+int deq()
+{
+	int x = q[head];
+	head++;
+	color[x] = BLACK;
+	return x;
+}
+
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
 	bool is_first = true;
