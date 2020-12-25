@@ -488,3 +488,17 @@ void GazTransNet::DeleteConnect(unordered_map<int, CPipe>& pipes)
 	pipes[choice].begin = -1;
 	pipes[choice].end = -1;
 }
+
+GazTransNet::GazTransNet()
+{
+	matrix = new int* [size];
+	for (int i = 0; i < size; i++)
+		matrix[i] = new int[size];
+}
+
+GazTransNet::~GazTransNet()
+{
+	for (int i = 0; i < size; i++)
+		delete[] matrix[i];
+	delete[] matrix;
+}
