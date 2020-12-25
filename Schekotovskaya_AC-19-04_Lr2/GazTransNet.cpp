@@ -89,6 +89,80 @@ int GazTransNet::max_flow(int source, int stock)
 	return maxflow;
 }
 
+void GazTransNet::view_max_flow(const unordered_map<int, CPipe>& pipes, int& source, int& stock)
+{
+	vector <pair<int, int>> InOut;
+	pair<int, int> io;
+	for (const auto& i : pipes)
+	{
+		if (!(i.second.begin == -1 || i.second.end == -1 || i.second.begin == -2 || i.second.end == -2))
+		{
+			io.first = i.second.begin;
+			io.second = i.second.end;
+			cout << i.first << " Pipe (" << i.second.length << ")  " << io.first << " -> " << io.second << endl;
+			InOut.push_back(io);
+		}
+	}
+
+	vector<int> nodes;
+	int add = 1;
+	for (const auto& i : InOut)
+	{
+		add = 1;
+		for (const int& j : nodes)
+		{
+			if (i.first != j)
+				add *= 1;
+			else
+				add *= 0;
+		}
+		if (add == 1)
+			nodes.push_back(i.first);
+
+		add = 1;
+		for (const int& j : nodes)
+		{
+			if (i.second != j)
+				add *= 1;
+			else
+				add *= 0;
+		}
+		if (add == 1)
+			nodes.push_back(i.second);
+
+	}
+
+	int size = nodes.size();
+
+	for (size_t i = 0; i < size; i++) {
+		if (nodes[i] == stock)
+			stock = i;
+		if (nodes[i] == source)
+			source = i;
+	}
+
+	if (stock > source)
+		n = stock + 1;
+	else
+		n = source + 1;
+
+
+
+	//cout << "\n\nn = " << n << endl;
+
+	//n = stock + 1;
+	link.resize(size, vector<int>(size));
+	flow.resize(size, vector<int>(size));
+	color.resize(size);
+	pred.resize(size);
+	q.resize(size);
+
+	for (auto& i : link) {
+		for (int& j : i) {
+			j = 0;// ïîòîì 88
+		}
+	}
+
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
 	bool is_first = true;
