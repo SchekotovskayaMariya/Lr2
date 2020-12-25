@@ -25,5 +25,11 @@ private:
 	void FillingMatrix(const vector<pair<int, int>>& InOut, const vector<int>& nodes);
 	bool ZeroMatrix(const int& size);
 	int SearchZeroHalfStepNodes(const vector<int>& nodes, deque<int> TopologicNodes);
+	
+	vector<vector<int>> link;
+	void ViewLink(const vector<int>& nodes);
+	void FillingLink(const vector<pair<int, int>>& InOut, const vector<int>& nodes, const unordered_map<int, CPipe>& pipes);
+
+	int bfs(int start, int end);
 };
 
