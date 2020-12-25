@@ -563,3 +563,73 @@ void GazTransNet::Shortcut(const unordered_map<int, CPipe>& pipes, const int& ch
 			InOut.push_back(io);
 		}
 	}
+	vector<int> nodes;
+	int add = 1;
+	for (const auto& i : InOut)
+	{
+		add = 1;
+		for (const int& j : nodes)
+		{
+			if (i.first != j)
+				add *= 1;
+			else
+				add *= 0;
+		}
+		if (add == 1)
+			nodes.push_back(i.first);
+
+		add = 1;
+		for (const int& j : nodes)
+		{
+			if (i.second != j)
+				add *= 1;
+			else
+				add *= 0;
+		}
+		if (add == 1)
+			nodes.push_back(i.second);
+
+	}
+	int size = nodes.size();
+
+	link.resize(size, vector<int>(size));
+
+	for (auto& i : link) {
+		for (int& j : i) {
+			j = 0;
+		}
+	}
+
+	FillingLink(InOut, nodes, pipes);
+	cout << endl;
+	ViewLink(nodes);
+
+	vector<int> distance(size);
+	vector<bool> visited(size);
+	int count, index, i, u, m = choice;
+	for (i = 0; i < size; i++)
+	{
+		distance[i] = INT_MAX; visited[i] = false;
+	}
+	distance[choice] = 0; 
+
+	for (count = 0; count < size - 1; count++)
+	{
+		int min = INT_MAX;
+		for (i = 0; i < size; i++)
+			if (!visited[i] && distance[i] <= min)
+			{
+				min = distance[i]; index = i;
+			}
+		u = index;
+		visited[u] = true;
+		for (i = 0; i < size; i++)
+			if (!visited[i] && link[u][i] && distance[u] != INT_MAX &&
+				distance[u] + link[u][i] < distance[i])
+				distance[i] = distance[u] + link[u][i];
+	}
+	cout << "All shortcut:\t\n";
+	for (i = 0; i < size; i++) if (distance[i] != INT_MAX)
+		cout << m << " -> " << i << " = " << distance[i] << endl;
+	else cout << m << " -> " << i << " = " << "infinity" << endl;
+}
