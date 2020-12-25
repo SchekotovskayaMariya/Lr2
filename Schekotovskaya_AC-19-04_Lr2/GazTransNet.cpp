@@ -549,3 +549,17 @@ void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<
 	}
 }
 
+void GazTransNet::Shortcut(const unordered_map<int, CPipe>& pipes, const int& choice) {
+
+	vector <pair<int, int>> InOut;
+	pair<int, int> io;
+	for (const auto& i : pipes)
+	{
+		if (!(i.second.begin == -1 || i.second.end == -1 || i.second.begin == -2 || i.second.end == -2))
+		{
+			io.first = i.second.begin;
+			io.second = i.second.end;
+			cout << i.first << " Pipe (" << i.second.length << ")  " << io.first << " -> " << io.second << endl;
+			InOut.push_back(io);
+		}
+	}
