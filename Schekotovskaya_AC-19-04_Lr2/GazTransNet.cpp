@@ -525,3 +525,31 @@ void GazTransNet::ViewLink(const vector<int>& nodes) {
 		++count;
 	}
 }
+
+void GazTransNet::FillingLink(const vector<pair<int, int>>& InOut, const vector<int>& nodes, const unordered_map<int, CPipe>& pipes) {
+
+	int size = nodes.size();
+	std::pair<int, int> io;//èíåäêñû õðàíÿòñÿ
+	for (const auto& i : InOut)
+	{
+		for (size_t j = 0; j < size; j++)
+		{
+			if (i.first == nodes[j])
+				io.first = j;
+			if (i.second == nodes[j])
+				io.second = j;
+		}
+
+		for (const auto& j : pipes) {
+			if (j.second.begin == i.first && j.second.end == i.second)
+			{
+				link[io.first][io.second] = j.second.length;
+			}
+		}
+	}
+
+	for (size_t i = 0; i < size; i++)
+	{
+		link[i][i] = 0; // åñëè âäðóã áóäåò ïåòëÿ
+	}
+}
