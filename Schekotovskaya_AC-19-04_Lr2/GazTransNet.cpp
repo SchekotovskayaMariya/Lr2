@@ -479,3 +479,12 @@ void GazTransNet::TopologicalSorting(const unordered_map<int, CPipe>& pipes)
 	}
 	ViewMatrix(nodes);
 }
+
+void GazTransNet::DeleteConnect(unordered_map<int, CPipe>& pipes)
+{
+	cout << "Select the pipe you want to break the connection - ";
+	ViewAllId(pipes);
+	int choice = CheckChoiceId(pipes);
+	pipes[choice].begin = -1;
+	pipes[choice].end = -1;
+}
