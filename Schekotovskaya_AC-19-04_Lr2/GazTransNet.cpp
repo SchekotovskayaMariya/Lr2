@@ -63,6 +63,32 @@ int GazTransNet::bfs(int start, int end)
 	else return 1;
 }
 
+int GazTransNet::max_flow(int source, int stock)
+{
+	int i, j, u;
+	int maxflow = 0;
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < n; j++)
+			flow[i][j] = 0;
+	}
+	while (bfs(source, stock) == 0)
+	{
+		int delta = 10000;
+		for (u = n - 1; pred[u] >= 0; u = pred[u])
+		{
+			delta = min(delta, (link[pred[u]][u] - flow[pred[u]][u]));
+		}
+		for (u = n - 1; pred[u] >= 0; u = pred[u])
+		{
+			flow[pred[u]][u] += delta;
+			flow[u][pred[u]] -= delta;
+		}
+		maxflow += delta;
+	}
+	return maxflow;
+}
+
 void GazTransNet::ViewAllReadyPipe(const unordered_map<int, CPipe>& pipes)
 {
 	bool is_first = true;
